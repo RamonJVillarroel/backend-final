@@ -13,11 +13,10 @@ const obtenerProductosId= (req, res) => {
     return res.json(product);
 };
 const subirPoductos = (req, res) => {
-     const { name, price,description, image,codigo,stock } = req.body;
+    const { name, price,description, image,codigo,stock } = req.body;
     if (!name || !price || !image|| !description|| !codigo|| !stock) {
         return res.status(400).json({ succes: false, error: 'Formato de cuerpo incorrecto' });
     }
-    
     const newProduct = {
         id: products.length + 1,
         timestamp: Date.now(),

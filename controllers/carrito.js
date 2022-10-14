@@ -1,45 +1,52 @@
-//const {getAllCarritos}=require('../dataBase/carrito')
 const fs = require('fs');
-const carrito = JSON.parse(fs.readFileSync('./dataBase/carrito.json', 'utf-8'));//getAllCarritos();
-const  products = JSON.parse(fs.readFileSync('./dataBase/data.json', 'utf-8'));
+const carrito = JSON.parse(fs.readFileSync('./dataBase/carrito.json', 'utf-8'));
+const products = JSON.parse(fs.readFileSync('./dataBase/data.json', 'utf-8'));
 const obtenerCarrito = (req, res) => {
-    //obtiene todos los carritos
+    //obtiene todos los produtos por id de carrito
     const { carritoId } = req.params;
-    console.log(carritoId);
     const carto = carrito.find(carto => carto.id === +carritoId);
     if (!carto) {
         return res.status(404).json({ success: false, error: `carrito con id: ${carritoId} no existe` });
     }
-    console.log(holis);
-    return res.json(carrito.products);
+    return res.json(carto.products);
 };
 const agregarCarrito = (req, res) => {
     //agrega carritos
-    let { carritoCOM } = req.body;//configurar postman para que envie texto y pueda funcionar
-    if (carritoCOM = 'crear carrito') {
-        const newCarrito = {
-            id: carrito.length + 1,
-            timestamp: Date.now(),
-            products,
-        };
-        carrito.push(newCarrito);
-        fs.writeFileSync('./dataBase/carrito.json', JSON.stringify(carrito, null, 2));
-        return res.json(newCarrito.id);
+    const { name, price, description, image, codigo, stock } = req.body;
+    if (!name || !price || !image || !description || !codigo || !stock) {
+        return res.status(400).json({ succes: false, error: 'Formato de cuerpo incorrecto' });
     }
+    const newCarrito = {
+        id: carrito.length + 1,
+        timestamp: Date.now(),
+        products: [{
+            id: products.length + 1,
+            name,
+            description,
+            price: +price,
+            codigo: +codigo,
+            stock: +stock,
+            image
+        }]
+    };
+    carrito.push(newCarrito);
+    fs.writeFileSync('./dataBase/carrito.json', JSON.stringify(carrito, null, 2));
+    return res.json(newCarrito.id);
 };
 const subirProductoId = (req, res) => {
-    //incorpora productos al carrito por su id de productos
-    const { params: { carritoId }, params: {productId } } = req;
-    const carritoIndex = carrito.findIndex(carrito => carrito.id === +carritoId);
-    const productIndex = products.findIndex(products => products.id === +productId);
-    if ( productIndex && carritoIndex< 0) return res.status(404).json({ success: false, error: `en el carrito ${carritoId} el id ${productIndex} no se puede incorporar` });
-    const newProduct = {
+    //incorpora productos al carrito ya creado
+    const carritoId = req.params.carritoId;
+    const productoId = req.params.productoId;
+    const carritoIndex = carrito.findIndex((cart) => cart.id === +carritoId);
+    const productIndex = products.findIndex((product) => product.id === +productoId);
+    if (carritoIndex && productIndex < 0) return res.status(404).json({ success: false, error: `carrito con id: ${carritoId} no existe` });
+    const newProducto = {
         ...carrito[carritoIndex],
-        products,
+        ...products[productIndex],
     };
-    carrito[carritoIndex] = newProduct;
+    carrito.push(newProducto);
     fs.writeFileSync('./dataBase/carrito.json', JSON.stringify(carrito, null, 2));
-    return res.json({ success: true, result: newProduct });
+    return res.json(carrito);
 };
 const eliminarCarrito = (req, res) => {
     //elimina el carrito creado
@@ -52,13 +59,15 @@ const eliminarCarrito = (req, res) => {
 };
 const eliminaProductosCart = (req, res) => {
     //elimina un producto del carrito por su id de carrito y id de producto
-    const { params: { carritoId }, params: {productId } } = req;
+    const carritoId = req.params.carritoId;
+    const productoId = req.params.productoId;
     const carritoIndex = carrito.findIndex(carrito => carrito.id === +carritoId);
-    const productIndex = products.findIndex(products=> products.id === +productId);
-    if (productIndex && carritoIndex < 0) return res.status(404).json({ success: false, error: `en el carrito ${carritoId} el id ${productIndex}` });
-    carrito.products.splice(carritoIndex&&productIndex, 1)
+    const productIndex = products.findIndex(products => products.id === +productoId);
+    if (productIndex && carritoIndex < 0) return res.status(404).json({ success: false, error: `en el carrito ${carritoId} el id ${productIndex} no existe` });
+    let index = carrito.findIndex((carr) => carr.products.id == +productoId);
+    carrito.splice(index, 1)
     fs.writeFileSync('./dataBase/carrito.json', JSON.stringify(carrito, null, 2));
-    return res.json({ success: true, result: 'carrito eliminado' });
+    return res.json({ success: true, result: 'producto eliminado' });
 };
 
 module.exports = {

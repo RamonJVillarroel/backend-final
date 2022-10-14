@@ -4,14 +4,12 @@
     "timestamp": 1665181046064,
     "products": [
       {
-        "id": 1,
-        "timestamp": 1665178979172,
-        "name": "pikachu",
+        "name": "purple",
         "description": "soy el mejor pokemon que hay, no hay niguno mejor",
-        "price": 4587,
-        "codigo": 2055,
+        "price": 745,
+        "codigo": 2075,
         "stock": 40,
-        "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
+        "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/full/055.png"
       }
     ]
   },
@@ -34,6 +32,32 @@
   {
     "id": 3,
     "timestamp": 1665266663808,
+    "products": [
+      {
+        "id": 1,
+        "timestamp": 1665178979172,
+        "name": "pikachu",
+        "description": "soy el mejor pokemon que hay, no hay niguno mejor",
+        "price": 4587,
+        "codigo": 2055,
+        "stock": 40,
+        "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png"
+      },
+      {
+        "id": 2,
+        "timestamp": 1665256689976,
+        "name": "piplo",
+        "description": "soy el mejor pokemon que hay, no hay niguno mejor",
+        "price": 745,
+        "codigo": 2075,
+        "stock": 40,
+        "image": "https://assets.pokemon.com/assets/cms2/img/pokedex/full/055.png"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "timestamp": 1665703057334,
     "products": [
       {
         "id": 1,
