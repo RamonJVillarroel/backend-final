@@ -1,6 +1,11 @@
 //const {getAllProductos}=require('../dataBase/productos')
 const fs =require('fs')
+const {ProductosDao}= require('../daos/app.daos')
 const products = JSON.parse(fs.readFileSync('./dataBase/data.json', 'utf-8'));//getAllProductos();
+
+const productoDao = new ProductosDao();
+
+
 const obtenerProductos=(req, res) => {
     res.send(products);
 };
