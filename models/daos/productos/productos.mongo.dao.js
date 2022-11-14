@@ -15,4 +15,4 @@ class ProductosMongo extends MongoContainer{
         super(collection, productoSchema)
     }
 }
-module.exports = ProductosMongo;
+module.exports = new ProductosMongo();

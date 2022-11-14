@@ -1,6 +1,7 @@
 const { Schema } = require('mongoose');
 const MongoContainer = require('../../container/mongo.container');
 
+
 const collection = "carrito";
 const CarritoSchema = new Schema({
     timestamp: Date.now(),
@@ -18,4 +19,4 @@ class CarritoMongo extends MongoContainer {
         super(collection, CarritoSchema)
     }
 }
-module.exports = CarritoMongo;
+module.exports = new CarritoMongo();

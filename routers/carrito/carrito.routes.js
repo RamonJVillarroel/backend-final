@@ -1,10 +1,9 @@
 const express = require('express');
-const {CarritoControler}= require('../../controllers/carrito.controller')
-const {obtenerCarrito, agregarCarrito,subirProductoId,eliminaProductosCart,eliminarCarrito}= require('../../controllers/carrito');
+const carritoController = require('../../controllers/carrito.controller');
 const router = express.Router();
-router.get('/api/carrito/:carritoId',);
-router.post('/api/carrito', agregarCarrito);
-router.post('/api/carrito/:carritoId/:productoId',subirProductoId);
-router.delete('/api/carrito/:carritoId', eliminarCarrito);
-router.delete('/api/carrito/:carritoId/productos/:productoId',eliminaProductosCart);
+router.get('/api/carrito/:carritoId', carritoController.getProducts);//asi se deberia ver al momento de gtomar algo de los controladores
+router.post('/api/carrito', carritoController.createCart);
+router.post('/api/carrito/:carritoId/:productoId',carritoController.saveProduct);
+router.delete('/api/carrito/:carritoId',carritoController.deleteCart);
+router.delete('/api/carrito/:carritoId/productos/:productoId',carritoController.deleteProduct);
 module.exports = router;

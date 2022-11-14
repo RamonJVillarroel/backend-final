@@ -3,20 +3,17 @@ const { getFirestore } = require('firebase-admin/firestore')
 const { HTTP_STATUS } = require('../../constants/api.constantes')
 const dbconfig = require('../../dataBase/db.config')
 const { HttpError } = require('../../utils/api.utils');
-
+admin.initializeApp({
+    credential: admin.credential.cert(dbconfig.firebase.credenciales),
+})
 class FirebaseContainer {
     constructor(collection) {
         const db = getFirestore();
         this.query = db.collection(collection);
     }
-
-    static async connect() {
-        admin.initializeApp({
-            credential: admin.credential.cert(dbconfig.firebase.credenciales),
-        })
-    }
-
-
+    static async disconnect() {
+        await admin.app().delete()
+      }
     async getAlll() {
         const docRef = await this.query.get();
         const documents = docRef.docs;
